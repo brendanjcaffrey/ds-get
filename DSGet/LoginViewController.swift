@@ -36,9 +36,10 @@ class LoginViewController: UIViewController {
         inputWrapper.backgroundColor = UIColor.white
         mainView.addSubview(inputWrapper)
 
-        setupInput(wrapper: hostWrapper, field: hostInput, placeholder: "Host", parent: titleView, password: false, offset: 30)
-        setupInput(wrapper: userWrapper, field: userInput, placeholder: "User", parent: hostWrapper, password: false)
-        setupInput(wrapper: passwordWrapper, field: passwordInput, placeholder: "Password", parent: userWrapper, password: true)
+        let values = Defaults.load()
+        setupInput(wrapper: hostWrapper, field: hostInput, parent: titleView, placeholder: "Host", value: values.host, password: false, offset: 30)
+        setupInput(wrapper: userWrapper, field: userInput, parent: hostWrapper, placeholder: "User", value: values.user, password: false)
+        setupInput(wrapper: passwordWrapper, field: passwordInput, parent: userWrapper, placeholder: "Password", value: values.password)
 
         loginButton.setTitle("Login", for: .normal)
         loginButton.addTarget(self, action: #selector(login(_:)), for: .touchUpInside)
@@ -74,12 +75,15 @@ class LoginViewController: UIViewController {
         }
     }
 
-    private func setupInput(wrapper: UIView, field: UITextField, placeholder: String, parent: UIView, password: Bool, offset: Int = 4) {
+    private func setupInput(wrapper: UIView, field: UITextField, parent: UIView, placeholder: String, value: String, password: Bool = true, offset: Int = 4) {
         inputWrapper.addSubview(wrapper)
 
         field.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
         field.isSecureTextEntry = password
+        field.autocorrectionType = .no
+        field.autocapitalizationType = .none
         field.placeholder = placeholder
+        field.text = value
         wrapper.addSubview(field)
 
         wrapper.snp.makeConstraints { (make) -> Void in
@@ -118,5 +122,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc func login(_ sender: Any) {
+        let values: Defaults.Values = (hostInput.text!, userInput.text!, passwordInput.text!)
+        Defaults.save(values)
     }
 }

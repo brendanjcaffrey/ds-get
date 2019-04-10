@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C61E4B06225DF1C50060866C /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C61E4B05225DF1C50060866C /* SnapKit.framework */; };
+		C62AEA13225EAA920084D86F /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62AEA12225EAA920084D86F /* Defaults.swift */; };
 		C669012A225DF034002513A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6690129225DF034002513A5 /* AppDelegate.swift */; };
 		C6690131225DF036002513A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6690130225DF036002513A5 /* Assets.xcassets */; };
 		C6690134225DF036002513A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6690132225DF036002513A5 /* LaunchScreen.storyboard */; };
@@ -16,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		C61E4B05225DF1C50060866C /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = SOURCE_ROOT; };
+		C62AEA12225EAA920084D86F /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		C6690126225DF034002513A5 /* DSGet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSGet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6690129225DF034002513A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C669012B225DF034002513A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			children = (
 				C61E4B05225DF1C50060866C /* SnapKit.framework */,
 				C6690129225DF034002513A5 /* AppDelegate.swift */,
+				C62AEA12225EAA920084D86F /* Defaults.swift */,
 				C669012B225DF034002513A5 /* LoginViewController.swift */,
 				C6690130225DF036002513A5 /* Assets.xcassets */,
 				C6690132225DF036002513A5 /* LaunchScreen.storyboard */,
@@ -176,6 +179,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C62AEA13225EAA920084D86F /* Defaults.swift in Sources */,
 				C68B918D225DFCF500B4AED4 /* LoginViewController.swift in Sources */,
 				C669012A225DF034002513A5 /* AppDelegate.swift in Sources */,
 			);
