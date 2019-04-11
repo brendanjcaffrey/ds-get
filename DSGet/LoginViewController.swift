@@ -75,6 +75,11 @@ class LoginViewController: UIViewController {
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+
     private func setupInput(wrapper: UIView, field: UITextField, parent: UIView, placeholder: String, value: String, password: Bool = true, offset: Int = 4) {
         inputWrapper.addSubview(wrapper)
 
@@ -124,5 +129,32 @@ class LoginViewController: UIViewController {
     @objc func login(_ sender: Any) {
         let values: Defaults.Values = (hostInput.text!, userInput.text!, passwordInput.text!)
         Defaults.save(values)
+
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        loadingIndicator.startAnimating()
+
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+
+        let api = API()
+        api.login(values: values) { (success: Bool) in
+            DispatchQueue.main.async { self.dismiss(animated: true, completion: nil) }
+
+            if success {
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(TaskListViewController(), animated: true)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Login failed", message: "Please check your host/user/password", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
     }
 }
