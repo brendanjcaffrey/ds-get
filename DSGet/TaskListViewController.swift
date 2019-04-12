@@ -23,6 +23,9 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         super.viewDidLoad()
         title = "Tasks"
 
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add(_:)))
+        navigationItem.setRightBarButton(addButton, animated: false)
+
         view.backgroundColor = UIColor.white
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) -> Void in
@@ -90,5 +93,9 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
                 self.showError(title: "Error", message: "Unable to refresh tasks")
             }
         }
+    }
+
+    @objc func add(_ sender: Any) {
+        navigationController?.pushViewController(AddViewController(api: api), animated: true)
     }
 }

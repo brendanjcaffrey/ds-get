@@ -14,6 +14,7 @@
 		C62AEA19225ED5210084D86F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62AEA18225ED5210084D86F /* Task.swift */; };
 		C62AEA1B22601C9E0084D86F /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62AEA1A22601C9E0084D86F /* TaskCell.swift */; };
 		C62AEA212260332A0084D86F /* ViewControllerUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62AEA202260332A0084D86F /* ViewControllerUtil.swift */; };
+		C62AEA2322603BE70084D86F /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62AEA2222603BE70084D86F /* AddViewController.swift */; };
 		C669012A225DF034002513A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6690129225DF034002513A5 /* AppDelegate.swift */; };
 		C6690131225DF036002513A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6690130225DF036002513A5 /* Assets.xcassets */; };
 		C6690134225DF036002513A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6690132225DF036002513A5 /* LaunchScreen.storyboard */; };
@@ -28,6 +29,7 @@
 		C62AEA18225ED5210084D86F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		C62AEA1A22601C9E0084D86F /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		C62AEA202260332A0084D86F /* ViewControllerUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUtil.swift; sourceTree = "<group>"; };
+		C62AEA2222603BE70084D86F /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		C6690126225DF034002513A5 /* DSGet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSGet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6690129225DF034002513A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C669012B225DF034002513A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -68,11 +70,12 @@
 			isa = PBXGroup;
 			children = (
 				C61E4B05225DF1C50060866C /* SnapKit.framework */,
+				C6690130225DF036002513A5 /* Assets.xcassets */,
+				C62AEA2222603BE70084D86F /* AddViewController.swift */,
 				C6690129225DF034002513A5 /* AppDelegate.swift */,
 				C62AEA14225EAF770084D86F /* API.swift */,
 				C62AEA12225EAA920084D86F /* Defaults.swift */,
 				C669012B225DF034002513A5 /* LoginViewController.swift */,
-				C6690130225DF036002513A5 /* Assets.xcassets */,
 				C6690132225DF036002513A5 /* LaunchScreen.storyboard */,
 				C6690135225DF036002513A5 /* Info.plist */,
 				C62AEA16225EC4D90084D86F /* TaskListViewController.swift */,
@@ -196,6 +199,7 @@
 			files = (
 				C62AEA212260332A0084D86F /* ViewControllerUtil.swift in Sources */,
 				C62AEA13225EAA920084D86F /* Defaults.swift in Sources */,
+				C62AEA2322603BE70084D86F /* AddViewController.swift in Sources */,
 				C62AEA1B22601C9E0084D86F /* TaskCell.swift in Sources */,
 				C68B918D225DFCF500B4AED4 /* LoginViewController.swift in Sources */,
 				C62AEA15225EAF770084D86F /* API.swift in Sources */,

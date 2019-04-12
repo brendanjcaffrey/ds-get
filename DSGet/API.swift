@@ -6,6 +6,8 @@ class API: NSObject, URLSessionDelegate {
     private let tasksURL = "https://%@/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&additional=transfer&sid=%@"
     private let deleteTaskURL =
         "https://%@//webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=delete&sid=%@&id=%@&force_complete=false"
+    private let createTaskURL =
+        "https://%@/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=create&sid=%@&uri=%@"
 
     private let opQueue = OperationQueue()
     private var session: URLSession?
@@ -88,6 +90,31 @@ class API: NSObject, URLSessionDelegate {
             }
 
             onComplete(success)
+        }
+
+        task.resume()
+    }
+
+    func addTask(uri: String, onComplete:@escaping (_ success: Bool) -> Void) {
+        let url = URL(string: String(format: createTaskURL, host!, sessionID!, uri))
+        spinnerOn()
+
+        let task = session!.dataTask(with: url!) { data, _, error in
+            self.spinnerOff()
+
+            guard error == nil, let data = data else {
+                onComplete(false)
+                return
+            }
+
+            if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                if let success = json["success"] as? Bool {
+                    onComplete(success)
+                    return
+                }
+            }
+
+            onComplete(false)
         }
 
         task.resume()
