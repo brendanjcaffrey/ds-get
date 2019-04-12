@@ -5,12 +5,14 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
     private let refreshControl = UIRefreshControl()
     private let api: API
     private var tasks: [Task]
+    private var firstLoad: Bool
 
     private static let reuseIdentifier = "TaskListCell"
 
     init(api: API, tasks: [Task]) {
         self.api = api
         self.tasks = tasks
+        self.firstLoad = true
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,6 +47,13 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
+
+        if firstLoad {
+            firstLoad = false
+        } else {
+            refreshControl.beginRefreshing()
+            refresh(self)
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
