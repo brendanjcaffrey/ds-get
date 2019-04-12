@@ -4,6 +4,8 @@ class API: NSObject, URLSessionDelegate {
     private let loginURL =
         "https://%@/webapi/auth.cgi?api=SYNO.API.Auth&version=2&method=login&account=%@&passwd=%@&session=DownloadStation&format=sid"
     private let tasksURL = "https://%@/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&additional=transfer&sid=%@"
+    private let deleteTaskURL =
+        "https://%@//webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=delete&sid=%@&id=%@&force_complete=false"
 
     private let opQueue = OperationQueue()
     private var session: URLSession?
@@ -61,6 +63,31 @@ class API: NSObject, URLSessionDelegate {
             }
 
             onComplete(self.parseTasks(data))
+        }
+
+        task.resume()
+    }
+
+    func deleteTask(taskId: String, onComplete:@escaping (_ success: Bool) -> Void) {
+        let url = URL(string: String(format: deleteTaskURL, host!, sessionID!, taskId))
+        spinnerOn()
+
+        let task = session!.dataTask(with: url!) { data, _, error in
+            self.spinnerOff()
+
+            guard error == nil, let data = data else {
+                onComplete(false)
+                return
+            }
+
+            var success = false
+            if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                if let arr = json["data"] as? [Any], let data = arr[0] as? [String: Any], let error = data["error"] as? Int {
+                    if error == 0 { success = true }
+                }
+            }
+
+            onComplete(success)
         }
 
         task.resume()

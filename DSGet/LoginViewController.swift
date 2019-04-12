@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: ViewControllerUtil {
     private let mainView = UIView()
     private let titleView = UILabel()
     private let inputWrapper = UIView()
@@ -138,31 +138,6 @@ class LoginViewController: UIViewController {
             } else {
                 self.errorOut(title: "Login failed", message: "Please check your host/user/password")
             }
-        }
-    }
-
-    private func showLoading() {
-        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
-
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.gray
-        loadingIndicator.startAnimating()
-
-        alert.view.addSubview(loadingIndicator)
-        present(alert, animated: true, completion: nil)
-    }
-
-    private func hideLoading() {
-        DispatchQueue.main.async { self.dismiss(animated: true, completion: nil) }
-    }
-
-    private func errorOut(title: String, message: String) {
-        hideLoading()
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
         }
     }
 

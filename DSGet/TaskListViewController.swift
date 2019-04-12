@@ -1,6 +1,6 @@
 import UIKit
 
-class TaskListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITableViewDelegate {
     private let tableView = UITableView()
     private let refreshControl = UIRefreshControl()
     private let api: API
@@ -21,7 +21,6 @@ class TaskListViewController: UIViewController, UITableViewDataSource, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         title = "Tasks"
 
         view.backgroundColor = UIColor.white
@@ -56,20 +55,39 @@ class TaskListViewController: UIViewController, UITableViewDataSource, UITableVi
         fatalError()
     }
 
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            showLoading()
+            api.deleteTask(taskId: tasks[indexPath.row].taskId) { (success) in
+                self.hideLoading()
+
+                if success {
+                    DispatchQueue.main.async {
+                        self.tasks.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }
+                } else {
+                    self.errorOut(title: "Error", message: "Unable to delete task")
+                }
+            }
+        }
+    }
+
     @objc func refresh(_ sender: Any) {
         api.getTasks { (tasks: [Task]?) in
             DispatchQueue.main.async { self.refreshControl.endRefreshing() }
+
             if let tasks = tasks {
                 DispatchQueue.main.async {
                     self.tasks = tasks
                     self.tableView.reloadData()
                 }
             } else {
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Error", message: "Unable to refresh tasks", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                }
+                self.showError(title: "Error", message: "Unable to refresh tasks")
             }
         }
     }
