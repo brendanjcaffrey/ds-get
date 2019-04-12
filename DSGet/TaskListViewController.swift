@@ -1,8 +1,9 @@
 import UIKit
 
-class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITableViewDelegate {
+class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
     private let tableView = UITableView()
     private let refreshControl = UIRefreshControl()
+    private var addButton = UIBarButtonItem()
     private let api: API
     private var tasks: [Task]
     private var firstLoad: Bool
@@ -25,7 +26,7 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         super.viewDidLoad()
         title = "Tasks"
 
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add(_:)))
+        addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add(_:)))
         navigationItem.setRightBarButton(addButton, animated: false)
 
         view.backgroundColor = UIColor.white

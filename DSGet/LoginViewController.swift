@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class LoginViewController: ViewControllerUtil {
+class LoginViewController: ViewControllerUtil, UITextFieldDelegate {
     private let mainView = UIView()
     private let titleView = UILabel()
     private let inputWrapper = UIView()
@@ -73,6 +73,8 @@ class LoginViewController: ViewControllerUtil {
             make.centerX.equalTo(mainView)
             make.height.equalTo(40)
         }
+
+        updateButtonEnabled(textField: nil, updatedText: "")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,9 +82,23 @@ class LoginViewController: ViewControllerUtil {
         navigationController?.isNavigationBarHidden = true
     }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let updatedText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        updateButtonEnabled(textField: textField, updatedText: updatedText)
+        return true
+    }
+
+    func updateButtonEnabled(textField: UITextField?, updatedText: String) {
+        let host = textField == hostInput ? updatedText : hostInput.text!
+        let user = textField == userInput ? updatedText : userInput.text!
+        let password = textField == passwordInput ? updatedText : passwordInput.text!
+        loginButton.isEnabled = !host.isEmpty && !user.isEmpty && !password.isEmpty
+    }
+
     private func setupInput(wrapper: UIView, field: UITextField, parent: UIView, placeholder: String, value: String, password: Bool = true, offset: Int = 4) {
         inputWrapper.addSubview(wrapper)
 
+        field.delegate = self
         field.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
         field.isSecureTextEntry = password
         field.autocorrectionType = .no

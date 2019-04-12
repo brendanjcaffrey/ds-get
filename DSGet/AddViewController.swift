@@ -1,9 +1,10 @@
 import UIKit
 
-class AddViewController: ViewControllerUtil {
+class AddViewController: ViewControllerUtil, UITextViewDelegate {
     private let mainView = UIView()
     private let labelView = UILabel()
     private let textInput = UITextView()
+    private var addButton = UIBarButtonItem()
     private let api: API
 
     static let background = UIColor(red: 239.0 / 255.0, green: 238.0 / 255.0, blue: 243.0 / 255.0, alpha: 1.0)
@@ -21,7 +22,7 @@ class AddViewController: ViewControllerUtil {
         super.viewDidLoad()
         title = "Create download"
 
-        let addButton = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(add(_:)))
+        addButton = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(add(_:)))
         navigationItem.setRightBarButton(addButton, animated: false)
 
         view.backgroundColor = AddViewController.background
@@ -35,6 +36,7 @@ class AddViewController: ViewControllerUtil {
         labelView.font = UIFont.boldSystemFont(ofSize: 16)
         mainView.addSubview(labelView)
 
+        textInput.delegate = self
         textInput.autocorrectionType = .no
         textInput.autocapitalizationType = .none
         mainView.addSubview(textInput)
@@ -54,6 +56,12 @@ class AddViewController: ViewControllerUtil {
             make.height.equalTo(300)
             make.left.right.equalToSuperview()
         }
+
+        textViewDidChange(textInput)
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        addButton.isEnabled = !textView.text.isEmpty
     }
 
     @objc func add(_ sender: Any) {
