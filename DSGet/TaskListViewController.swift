@@ -38,6 +38,7 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         tableView.refreshControl = refreshControl
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskListViewController.reuseIdentifier)
 
+        refreshControl.tintColor = LoginViewController.background
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
     }
 
