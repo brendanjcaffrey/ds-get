@@ -2,6 +2,7 @@ import UIKit
 
 class TaskListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private let tableView = UITableView()
+    private let refreshControl = UIRefreshControl()
     private let api: API
     private var tasks: [Task]
 
@@ -32,7 +33,10 @@ class TaskListViewController: UIViewController, UITableViewDataSource, UITableVi
 
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.refreshControl = refreshControl
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskListViewController.reuseIdentifier)
+
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,5 +54,23 @@ class TaskListViewController: UIViewController, UITableViewDataSource, UITableVi
             return cell
         }
         fatalError()
+    }
+
+    @objc func refresh(_ sender: Any) {
+        api.getTasks { (tasks: [Task]?) in
+            DispatchQueue.main.async { self.refreshControl.endRefreshing() }
+            if let tasks = tasks {
+                DispatchQueue.main.async {
+                    self.tasks = tasks
+                    self.tableView.reloadData()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Error", message: "Unable to refresh tasks", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
     }
 }
