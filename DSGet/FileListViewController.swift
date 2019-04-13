@@ -38,6 +38,19 @@ class FileListViewController: ViewControllerUtil, UITableViewDataSource {
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        applicationDidBecomeActive()
+    }
+
+    @objc override func applicationDidBecomeActive() {
+        if AppDelegate.launchURL != nil {
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: false)
+            }
+        }
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return task.files.count
     }

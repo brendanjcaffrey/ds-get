@@ -60,6 +60,21 @@ class AddViewController: ViewControllerUtil, UITextViewDelegate {
         textViewDidChange(textInput)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        applicationDidBecomeActive()
+    }
+
+    @objc override func applicationDidBecomeActive() {
+        if AppDelegate.launchURL != nil {
+            DispatchQueue.main.async {
+                self.textInput.text = AppDelegate.launchURL
+                self.textViewDidChange(self.textInput)
+                AppDelegate.launchURL = nil
+            }
+        }
+    }
+
     func textViewDidChange(_ textView: UITextView) {
         addButton.isEnabled = !textView.text.isEmpty
     }

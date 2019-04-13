@@ -75,6 +75,12 @@ class LoginViewController: ViewControllerUtil, UITextFieldDelegate {
         }
 
         updateButtonEnabled(textField: nil, updatedText: "")
+
+        if loginButton.isEnabled {
+            DispatchQueue.main.async {
+                self.login(self)
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

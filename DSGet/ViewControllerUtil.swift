@@ -27,4 +27,18 @@ class ViewControllerUtil: UIViewController {
         hideLoading()
         DispatchQueue.main.async { self.showError(title: title, message: message) }
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive),
+                                               name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func applicationDidBecomeActive() {
+    }
 }

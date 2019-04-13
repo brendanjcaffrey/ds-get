@@ -60,6 +60,14 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         if let selected = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: selected, animated: true)
         }
+
+        applicationDidBecomeActive()
+    }
+
+    @objc override func applicationDidBecomeActive() {
+        if AppDelegate.launchURL != nil {
+            DispatchQueue.main.async { self.add(self) }
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
