@@ -32,14 +32,15 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         view.backgroundColor = UIColor.white
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) -> Void in
-            make.top.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.width.equalTo(view)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.width.equalTo(view)
         }
 
         tableView.dataSource = self
         tableView.delegate = self
         tableView.refreshControl = refreshControl
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskListViewController.reuseIdentifier)
+        tableView.insetsContentViewsToSafeArea = true
 
         refreshControl.tintColor = LoginViewController.background
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
@@ -54,6 +55,10 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         } else {
             refreshControl.beginRefreshing()
             refresh(self)
+        }
+
+        if let selected = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selected, animated: true)
         }
     }
 
@@ -91,6 +96,25 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         }
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        showLoading()
+        api.getTask(taskId: tasks[indexPath.row].taskId) { (task) in
+            self.hideLoading()
+
+            if task == nil {
+                self.showError(title: "Error", message: "Unable to load task info")
+                self.hideRow(indexPath)
+            } else if task!.files.isEmpty {
+                self.showError(title: "", message: "No file information to show")
+                self.hideRow(indexPath)
+            } else {
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(FileListViewController(api: self.api, task: task!), animated: true)
+                }
+            }
+        }
+    }
+
     @objc func refresh(_ sender: Any) {
         api.getTasks { (tasks: [Task]?) in
             DispatchQueue.main.async { self.refreshControl.endRefreshing() }
@@ -108,5 +132,11 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
 
     @objc func add(_ sender: Any) {
         navigationController?.pushViewController(AddViewController(api: api), animated: true)
+    }
+
+    private func hideRow(_ indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            self.tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }

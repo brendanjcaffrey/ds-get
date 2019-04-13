@@ -3,7 +3,10 @@ import UIKit
 class API: NSObject, URLSessionDelegate {
     private let loginURL =
         "https://%@/webapi/auth.cgi?api=SYNO.API.Auth&version=2&method=login&account=%@&passwd=%@&session=DownloadStation&format=sid"
-    private let tasksURL = "https://%@/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&additional=transfer&sid=%@"
+    private let tasksURL =
+        "https://%@/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&additional=transfer&sid=%@"
+    private let taskInfoURL =
+        "https://%@/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=getinfo&sid=%@&id=%@&additional=transfer,file"
     private let deleteTaskURL =
         "https://%@//webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=delete&sid=%@&id=%@&force_complete=false"
     private let createTaskURL =
@@ -70,6 +73,25 @@ class API: NSObject, URLSessionDelegate {
         task.resume()
     }
 
+    func getTask(taskId: String, onComplete:@escaping (_ task: Task?) -> Void) {
+        let url = URL(string: String(format: taskInfoURL, host!, sessionID!, taskId))
+        spinnerOn()
+
+        let task = session!.dataTask(with: url!) { data, _, error in
+            self.spinnerOff()
+
+            guard error == nil, let data = data else {
+                onComplete(nil)
+                return
+            }
+
+            let tasks = self.parseTasks(data) ?? []
+            onComplete(tasks[0])
+        }
+
+        task.resume()
+    }
+
     func deleteTask(taskId: String, onComplete:@escaping (_ success: Bool) -> Void) {
         let url = URL(string: String(format: deleteTaskURL, host!, sessionID!, taskId))
         spinnerOn()
@@ -127,7 +149,7 @@ class API: NSObject, URLSessionDelegate {
         guard let data = json["data"] as? [String: Any] else {
             return nil
         }
-        guard let tasks = data["tasks"] as? [AnyObject] else {
+        guard let tasks = data["tasks"] as? [Any] else {
             return nil
         }
 

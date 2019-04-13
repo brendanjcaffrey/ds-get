@@ -1,51 +1,39 @@
 import Foundation
 
-class Task {
-    var taskId: String
-    var status: String
-    var title: String
-    var totalSize: Int64
-    var downloadedSize: Int64
-    var downloadSpeed: Int64
+class Task: File {
+    var taskId = ""
+    var status = ""
+    var downloadSpeed: Int64 = 0
+    var files: [File] = []
 
-    static let byteFormatter: ByteCountFormatter = {
-        let formatter = ByteCountFormatter()
-        formatter.allowedUnits = [.useKB, .useMB, .useGB]
-        formatter.countStyle = .file
-        formatter.isAdaptive = true
-        return formatter
-    }()
+    override init(_ json: [String: Any]) {
+        super.init()
 
-    init(_ json: [String: Any]) {
         taskId = json["id"] as? String ?? ""
         totalSize = (json["size"] as? NSNumber ?? 0).int64Value
         status = json["status"] as? String ?? ""
         title = json["title"] as? String ?? ""
-        downloadedSize = 0
-        downloadSpeed = 0
 
-        if let additional = json["additional"] as? [String: Any], let transfer = additional["transfer"] as? [String: Any] {
+        guard let additional = json["additional"] as? [String: Any] else { return }
+        if let transfer = additional["transfer"] as? [String: Any] {
             downloadedSize = (transfer["size_downloaded"] as? NSNumber ?? 0).int64Value
             downloadSpeed = (transfer["speed_download"] as? NSNumber ?? 0).int64Value
+        }
+
+        guard let filesArr = additional["file"] as? [Any] else { return }
+        for fileObj in filesArr {
+            if let fileObj = fileObj as? [String: Any] {
+                files.append(File(fileObj))
+            }
         }
     }
 
     func downloadSpeedString() -> String {
-        return Task.byteFormatter.string(fromByteCount: downloadSpeed) + "/s"
-    }
-
-    func downloadPercentString() -> String {
-        return Task.byteFormatter.string(fromByteCount: downloadedSize) + "/" + Task.byteFormatter.string(fromByteCount: totalSize)
-            + " (" + percentComplete() + ")"
+        return File.byteFormatter.string(fromByteCount: downloadSpeed) + "/s"
     }
 
     func downloadTotalString() -> String {
-        return Task.byteFormatter.string(fromByteCount: totalSize)
-    }
-
-    func percentComplete() -> String {
-        let percent = Double(downloadedSize) / Double(totalSize) * 100.0
-        return String(format: "%.2f%%", percent)
+        return File.byteFormatter.string(fromByteCount: totalSize)
     }
 
     func icon() -> String {
