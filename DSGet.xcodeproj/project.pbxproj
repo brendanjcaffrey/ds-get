@@ -21,6 +21,7 @@
 		C6690131225DF036002513A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6690130225DF036002513A5 /* Assets.xcassets */; };
 		C6690134225DF036002513A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6690132225DF036002513A5 /* LaunchScreen.storyboard */; };
 		C68B918D225DFCF500B4AED4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C669012B225DF034002513A5 /* LoginViewController.swift */; };
+		C6C5359C2335A0BE001C3BC5 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C5359B2335A0BE001C3BC5 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		C6690130225DF036002513A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6690133225DF036002513A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C6690135225DF036002513A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6C5359B2335A0BE001C3BC5 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				C62AEA2222603BE70084D86F /* AddViewController.swift */,
 				C62AEA14225EAF770084D86F /* API.swift */,
 				C6690129225DF034002513A5 /* AppDelegate.swift */,
+				C6C5359B2335A0BE001C3BC5 /* Colors.swift */,
 				C62AEA12225EAA920084D86F /* Defaults.swift */,
 				C62AEA24226156560084D86F /* File.swift */,
 				C62AEA26226156760084D86F /* FileListViewController.swift */,
@@ -204,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C62AEA212260332A0084D86F /* ViewControllerUtil.swift in Sources */,
+				C6C5359C2335A0BE001C3BC5 /* Colors.swift in Sources */,
 				C62AEA13225EAA920084D86F /* Defaults.swift in Sources */,
 				C62AEA2322603BE70084D86F /* AddViewController.swift in Sources */,
 				C62AEA1B22601C9E0084D86F /* TaskCell.swift in Sources */,

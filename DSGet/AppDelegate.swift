@@ -10,9 +10,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.rootViewController = UINavigationController(rootViewController: LoginViewController())
         window!.makeKeyAndVisible()
 
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        UINavigationBar.appearance().tintColor = UIColor.white
-        UINavigationBar.appearance().barTintColor = LoginViewController.background
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.textOnBackground]
+        UINavigationBar.appearance().tintColor = Colors.textOnBackground
+        UINavigationBar.appearance().barTintColor = Colors.background
         UINavigationBar.appearance().isTranslucent = false
 
         return true

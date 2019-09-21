@@ -23,7 +23,7 @@ class FileListViewController: ViewControllerUtil, UITableViewDataSource {
         super.viewDidLoad()
         title = task.title
 
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = Colors.textBackground
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -34,7 +34,7 @@ class FileListViewController: ViewControllerUtil, UITableViewDataSource {
         tableView.refreshControl = refreshControl
         tableView.insetsContentViewsToSafeArea = true
 
-        refreshControl.tintColor = LoginViewController.background
+        refreshControl.tintColor = Colors.background
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
     }
 

@@ -29,7 +29,7 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add(_:)))
         navigationItem.setRightBarButton(addButton, animated: false)
 
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = Colors.background
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -42,7 +42,7 @@ class TaskListViewController: ViewControllerUtil, UITableViewDataSource, UITable
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskListViewController.reuseIdentifier)
         tableView.insetsContentViewsToSafeArea = true
 
-        refreshControl.tintColor = LoginViewController.background
+        refreshControl.tintColor = Colors.refresh
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
     }
 
