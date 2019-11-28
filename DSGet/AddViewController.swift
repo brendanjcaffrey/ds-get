@@ -81,10 +81,10 @@ class AddViewController: ViewControllerUtil, UITextViewDelegate {
     @objc func add(_ sender: Any) {
         showLoading()
         api.addTask(uri: textInput.text) { (success) in
-            self.hideLoading()
-
             if success {
-                DispatchQueue.main.async { self.navigationController?.popViewController(animated: true) }
+                self.hideLoading(completion: {
+                    DispatchQueue.main.async { self.navigationController?.popViewController(animated: true) }
+                })
             } else {
                 self.errorOut(title: "Error", message: "Unable to create task")
             }

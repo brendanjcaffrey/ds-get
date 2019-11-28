@@ -157,9 +157,8 @@ class LoginViewController: ViewControllerUtil, UITextFieldDelegate {
     }
 
     private func showTasks(_ api: API, _ tasks: [Task]) {
-        hideLoading()
-        DispatchQueue.main.async {
+        hideLoading(completion: {
             self.navigationController?.pushViewController(TaskListViewController(api: api, tasks: tasks), animated: true)
-        }
+        })
     }
 }

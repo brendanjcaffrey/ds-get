@@ -31,8 +31,10 @@ class API: NSObject, URLSessionDelegate {
     }
 
     func login(values: Defaults.Values, onComplete:@escaping (_ success: Bool) -> Void) {
-        let url = URL(string: String(format: loginURL, values.host, values.user, values.password))
+        let urlString = String(format: loginURL, values.host, values.user, values.password)
+        let url = URL(string: urlString)
         host = values.host
+        print("[OUT] \(urlString)")
         spinnerOn()
 
         let task = session!.dataTask(with: url!) { data, _, error in
@@ -43,6 +45,7 @@ class API: NSObject, URLSessionDelegate {
                 return
             }
 
+            print("[IN] \(String(data: data, encoding: String.Encoding.utf8)!)")
             if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                 if let data = json["data"] as? [String: Any], let sid = data["sid"] as? String {
                     self.sessionID = sid
@@ -56,7 +59,9 @@ class API: NSObject, URLSessionDelegate {
     }
 
     func getTasks(onComplete:@escaping (_ tasks: [Task]?) -> Void) {
-        let url = URL(string: String(format: tasksURL, host!, sessionID!))
+        let urlString = String(format: tasksURL, host!, sessionID!)
+        let url = URL(string: urlString)
+        print("[OUT] \(urlString)")
         spinnerOn()
 
         let task = session!.dataTask(with: url!) { data, _, error in
@@ -67,6 +72,7 @@ class API: NSObject, URLSessionDelegate {
                 return
             }
 
+            print("[IN] \(String(data: data, encoding: String.Encoding.utf8)!)")
             onComplete(self.parseTasks(data))
         }
 
@@ -74,7 +80,9 @@ class API: NSObject, URLSessionDelegate {
     }
 
     func getTask(taskId: String, onComplete:@escaping (_ task: Task?) -> Void) {
-        let url = URL(string: String(format: taskInfoURL, host!, sessionID!, taskId))
+        let urlString = String(format: taskInfoURL, host!, sessionID!, taskId)
+        let url = URL(string: urlString)
+        print("[OUT] \(urlString)")
         spinnerOn()
 
         let task = session!.dataTask(with: url!) { data, _, error in
@@ -85,6 +93,7 @@ class API: NSObject, URLSessionDelegate {
                 return
             }
 
+            print("[IN] \(String(data: data, encoding: String.Encoding.utf8)!)")
             let tasks = self.parseTasks(data) ?? []
             onComplete(tasks[0])
         }
@@ -93,7 +102,9 @@ class API: NSObject, URLSessionDelegate {
     }
 
     func deleteTask(taskId: String, onComplete:@escaping (_ success: Bool) -> Void) {
-        let url = URL(string: String(format: deleteTaskURL, host!, sessionID!, taskId))
+        let urlString = String(format: deleteTaskURL, host!, sessionID!, taskId)
+        let url = URL(string: urlString)
+        print("[OUT] \(urlString)")
         spinnerOn()
 
         let task = session!.dataTask(with: url!) { data, _, error in
@@ -105,6 +116,7 @@ class API: NSObject, URLSessionDelegate {
             }
 
             var success = false
+            print("[IN] \(String(data: data, encoding: String.Encoding.utf8)!)")
             if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                 if let arr = json["data"] as? [Any], let data = arr[0] as? [String: Any], let error = data["error"] as? Int {
                     if error == 0 { success = true }
@@ -118,7 +130,9 @@ class API: NSObject, URLSessionDelegate {
     }
 
     func addTask(uri: String, onComplete:@escaping (_ success: Bool) -> Void) {
-        let url = URL(string: String(format: createTaskURL, host!, sessionID!, uri))
+        let urlString = String(format: createTaskURL, host!, sessionID!, uri)
+        let url = URL(string: urlString)
+        print("[OUT] \(urlString)")
         spinnerOn()
 
         let task = session!.dataTask(with: url!) { data, _, error in
@@ -129,6 +143,7 @@ class API: NSObject, URLSessionDelegate {
                 return
             }
 
+            print("[IN] \(String(data: data, encoding: String.Encoding.utf8)!)")
             if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                 if let success = json["success"] as? Bool {
                     onComplete(success)

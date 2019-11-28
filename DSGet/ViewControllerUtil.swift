@@ -13,8 +13,8 @@ class ViewControllerUtil: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    func hideLoading() {
-        DispatchQueue.main.async { self.dismiss(animated: true, completion: nil) }
+    func hideLoading(completion: (() -> Void)? = nil) {
+        DispatchQueue.main.async { self.dismiss(animated: true, completion: completion) }
     }
 
     func showError(title: String, message: String) {
@@ -24,8 +24,7 @@ class ViewControllerUtil: UIViewController {
     }
 
     func errorOut(title: String, message: String) {
-        hideLoading()
-        DispatchQueue.main.async { self.showError(title: title, message: message) }
+        hideLoading(completion: { DispatchQueue.main.async { self.showError(title: title, message: message) }})
     }
 
     override func viewDidAppear(_ animated: Bool) {
